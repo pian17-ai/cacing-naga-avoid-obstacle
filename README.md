@@ -58,12 +58,6 @@ The source code in this repository is the original competition version used duri
 
 ---
 
-# 📦 Components
-
-![Components](docs/images/components.jpg)
-
----
-
 # 🧠 Navigation Algorithm
 
 ```
