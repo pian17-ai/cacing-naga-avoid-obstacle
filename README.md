@@ -30,9 +30,9 @@ The source code in this repository is the original competition version used duri
 
 ## 👥 Authors
 
-- [Alvian Cahyo P](https://github.com/pian17-ai)
+- [Alvian Cahyo Pambudi](https://github.com/pian17-ai)
 - [Muhammad Ramadhan Putra Wietanto](https://github.com/Ramadhan1914)
-- [Madison Dipatulus](https://github.com/madisondipatulus)
+- [Madison Dipatulus](https://github.com/madisondipatulus-sketch)
 
 # ✨ Features
 
