@@ -16,7 +16,7 @@
 
 > Add your competition video or GIF here.
 
-![Demo](assets/competition.mp4)
+![Demo](assets/competition.gif)
 
 ---
 
