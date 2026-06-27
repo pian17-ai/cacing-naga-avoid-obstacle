@@ -12,9 +12,7 @@
 
 ---
 
-## 🎥 Demo
-
-> Add your competition video or GIF here.
+## 🎥 Contest
 
 ![Demo](assets/competition.gif)
 
@@ -29,6 +27,12 @@ The robot continuously scans its surroundings, detects obstacles, compares avail
 The source code in this repository is the original competition version used during the event.
 
 ---
+
+## 👥 Authors
+
+- [Alvian Cahyo P](https://github.com/pian17-ai)
+- [Muhammad Ramadhan Putra Wietanto](https://github.com/Ramadhan1914)
+- [Madison Dipatulus](https://github.com/madisondipatulus)
 
 # ✨ Features
 
@@ -48,7 +52,7 @@ The source code in this repository is the original competition version used duri
 | ESP32 | 1 |
 | HC-SR04 Ultrasonic Sensor | 3 |
 | L298N Motor Driver | 1 |
-| DC Motor | 2 |
+| DC Motor | 4 |
 | Robot Chassis | 1 |
 | Battery | 1 |
 
@@ -99,49 +103,143 @@ Front Clear?
 
 ---
 
-# 📂 Project Structure
-
-```
-avoid-obstacle/
-
-│
-├── AvoidObstacle.ino
-│
-├── docs/
-│   ├── images/
-│   │   ├── robot.jpg
-│   │   ├── components.jpg
-│   │   └── demo.gif
-│   │
-│   └── wiring.png
-│
-└── README.md
-```
-
----
-
 # ⚙ Pin Configuration
 
-## Ultrasonic Sensors
+# 🔌 Wiring Diagram
 
-| Sensor | Trigger | Echo |
-|---------|---------|------|
-| Left | GPIO 5 | GPIO 18 |
-| Center | GPIO 19 | GPIO 21 |
-| Right | GPIO 22 | GPIO 23 |
+## ESP32 ↔ HC-SR04 Ultrasonic Sensors
+
+| HC-SR04 | ESP32 |
+|----------|--------|
+| Left VCC | 5V |
+| Left GND | GND |
+| Left TRIG | GPIO 5 |
+| Left ECHO | GPIO 18 |
+| Center VCC | 5V |
+| Center GND | GND |
+| Center TRIG | GPIO 19 |
+| Center ECHO | GPIO 21 |
+| Right VCC | 5V |
+| Right GND | GND |
+| Right TRIG | GPIO 22 |
+| Right ECHO | GPIO 23 |
 
 ---
 
-## Motor Driver
+## ESP32 ↔ L298N
 
-| Pin | GPIO |
-|------|------|
-| IN1 | 26 |
-| IN2 | 27 |
-| IN3 | 14 |
-| IN4 | 12 |
-| ENA | 25 |
-| ENB | 33 |
+| L298N | ESP32 |
+|--------|--------|
+| IN1 | GPIO 26 |
+| IN2 | GPIO 27 |
+| IN3 | GPIO 14 |
+| IN4 | GPIO 12 |
+| ENA | GPIO 25 |
+| ENB | GPIO 33 |
+| GND | GND (Common Ground) |
+
+> **Important:** ESP32 GND **must be connected** to the L298N GND.
+
+---
+
+## Power Connections
+
+| Device | Connection |
+|----------|-----------|
+| ESP32 VIN / 5V | 5V Supply *(or USB while programming)* |
+| ESP32 GND | Battery GND |
+| L298N +12V / VIN | Battery Positive |
+| L298N GND | Battery Negative |
+| HC-SR04 VCC | ESP32 5V |
+| HC-SR04 GND | ESP32 GND |
+
+> All grounds must be connected together (Common Ground).
+
+---
+
+## L298N ↔ Motors
+
+The robot uses **4 DC motors**.
+
+```
+Motor A (Left Side)
+
+OUT1 ───── Left Front Motor (+)
+OUT2 ───── Left Front Motor (-)
+
+           │
+           └── Parallel
+
+OUT1 ───── Left Rear Motor (+)
+OUT2 ───── Left Rear Motor (-)
+```
+
+```
+Motor B (Right Side)
+
+OUT3 ───── Right Front Motor (+)
+OUT4 ───── Right Front Motor (-)
+
+            │
+            └── Parallel
+
+OUT3 ───── Right Rear Motor (+)
+OUT4 ───── Right Rear Motor (-)
+```
+
+---
+
+## GPIO Summary
+
+| GPIO | Function |
+|-------|----------|
+| GPIO 5 | Left Ultrasonic Trigger |
+| GPIO 18 | Left Ultrasonic Echo |
+| GPIO 19 | Center Ultrasonic Trigger |
+| GPIO 21 | Center Ultrasonic Echo |
+| GPIO 22 | Right Ultrasonic Trigger |
+| GPIO 23 | Right Ultrasonic Echo |
+| GPIO 26 | Motor Driver IN1 |
+| GPIO 27 | Motor Driver IN2 |
+| GPIO 14 | Motor Driver IN3 |
+| GPIO 12 | Motor Driver IN4 |
+| GPIO 25 | Motor Driver ENA (PWM) |
+| GPIO 33 | Motor Driver ENB (PWM) |
+
+---
+
+## Hardware Architecture
+
+```
+                 +------------------+
+                 |      ESP32       |
+                 +------------------+
+
+        GPIO5  ------------ TRIG Left
+        GPIO18 ----------- ECHO Left
+
+        GPIO19 ----------- TRIG Center
+        GPIO21 ----------- ECHO Center
+
+        GPIO22 ----------- TRIG Right
+        GPIO23 ----------- ECHO Right
+
+        GPIO26 ----------- IN1
+        GPIO27 ----------- IN2
+        GPIO14 ----------- IN3
+        GPIO12 ----------- IN4
+        GPIO25 ----------- ENA
+        GPIO33 ----------- ENB
+                     │
+                     ▼
+               +------------+
+               |   L298N    |
+               +------------+
+                 │        │
+            Left Motors  Right Motors
+             (2 Motors)   (2 Motors)
+
+```
 
 ---
 
@@ -176,14 +274,6 @@ if (jarakTengah == 999) {
 This optimization significantly improves performance on long straight paths.
 
 ---
-
-<!-- # 📷 Gallery
-
-| Robot | Components |
-|--------|------------|
-| ![](docs/images/robot.jpg) | ![](docs/images/components.jpg) |
-
---- -->
 
 # 🏆 Competition
 
